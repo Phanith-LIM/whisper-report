@@ -1,6 +1,3 @@
-# syntax=docker/dockerfile:1.4
-
-# Choose a python version that you know works with your application
 FROM python:3.11-slim
 
 # Install uv for fast package management
@@ -10,20 +7,16 @@ ENV UV_SYSTEM_PYTHON=1
 WORKDIR /app
 
 # Copy requirements file
-COPY --link requirements.txt .
+COPY requirements.txt .
 
 # Install the requirements using uv
 RUN uv pip install -r requirements.txt
 
 # Copy application files
-COPY --link app.py .
-COPY --link dataset /app/dataset
-# Uncomment the following line if you need to copy additional files
-# COPY --link . .
+COPY app.py .
+COPY dataset /app/dataset
 
 EXPOSE 8080
-
-# Create a non-root user and switch to it
 RUN useradd -m app_user
 USER app_user
 
